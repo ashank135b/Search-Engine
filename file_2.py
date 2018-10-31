@@ -29,7 +29,7 @@ with open("storewords.txt", "rb") as myFile:
 
 
 def percentageCalculator(x, y):
-    return x*1.0/y *100
+    return x * 1.0 / y * 100
 
 
 def query_vector(query):
@@ -49,6 +49,11 @@ def query_vector(query):
         else:
             vec[key] = 0
     return vec
+
+
+def normalize(query):
+    magnitude = sum(query[k] * query[k] for k in idf.keys())
+    return dict((k, query[k] / magnitude) for k in idf.keys())
 
 
 def query_rank(document, query):
@@ -349,7 +354,7 @@ class Selected_Page(tk.Frame):
         # self.txtItem.insert(INSERT, rss_item.link, 'a')
         self.txtItem.config(state='disabled')
 
-        self.story_label = tk.Label(self, font=("Arial", 15), text=Selected_novel+":")
+        self.story_label = tk.Label(self, font=("Arial", 15), text=Selected_novel + ":")
         global input
         inputstr = input.split(' ')
         with open("storetrie.txt", "rb") as myFile:
