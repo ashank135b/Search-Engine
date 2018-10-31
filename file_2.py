@@ -29,7 +29,7 @@ with open("storewords.txt", "rb") as myFile:
 
 
 def percentageCalculator(x, y):
-    return x/y *100
+    return x*1.0/y *100
 
 
 def query_vector(query):
@@ -90,7 +90,7 @@ def return_list(master, query):
         step = "Working on {}...".format(i)
         # log.write(str('\n[OK]'))
         master.progress['value'] = unit
-        master.percent['text'] = "{}%".format(int(unit))
+        master.percent['text'] = "{:.1f}%".format(unit)
         master.status['text'] = "{}".format(step)
 
         output[story] = query_rank(data[story]['tf'], query_vec)
@@ -224,7 +224,7 @@ class StartPage(tk.Frame):
         self.page_1_search.pack(padx=(0, 30), pady=(0, 100), anchor='se')
         # self.page_1_advsearch.pack(side="left")
         # self.cb.pack()
-        self.percent = tk.Label(self, text="0%", width=4, relief='sunken', anchor='se')
+        self.percent = tk.Label(self, text="00.0%", width=5, relief='sunken', anchor='se')
         self.progress = Progressbar(self, length=250, mode='determinate')
         self.status = tk.Label(self, text="progress tracker", relief='sunken', anchor='sw')
 
@@ -325,7 +325,7 @@ class Selected_Page(tk.Frame):
         global text
         global Selected_novel
 
-        txt = "\t\t\t\t" + Selected_novel + "\n" + text[6 * final_output[1][Selected_novel]['index'] + 6]
+        txt = text[6 * final_output[1][Selected_novel]['index'] + 6]
         # self.ans = tk.Label(self, relief='sunken', height=50, text=' ', wraplength=500)
 
 
@@ -349,6 +349,7 @@ class Selected_Page(tk.Frame):
         # self.txtItem.insert(INSERT, rss_item.link, 'a')
         self.txtItem.config(state='disabled')
 
+        self.story_label = tk.Label(self, font=("Arial", 15), text=Selected_novel+":")
         global input
         inputstr = input.split(' ')
         with open("storetrie.txt", "rb") as myFile:
@@ -356,7 +357,8 @@ class Selected_Page(tk.Frame):
 
         start = 1.0
 
-        inputstr = [inp.capitalize() for inp in inputstr]
+        inputstr += [inp.capitalize() for inp in inputstr]
+        inputstr += [inp.lower() for inp in inputstr]
         print(inputstr)
         all_words = []
         for inp in inputstr:
@@ -378,6 +380,7 @@ class Selected_Page(tk.Frame):
             self.txtItem.tag_config('highlight', background='white', foreground='red')
 
         # self.ans.pack(side='top',pady=50)
+        self.story_label.pack(side='top')
         self.frm.pack(side='top')
         start_button = tk.Button(self, text="Search another word!!!",
                                  command=lambda: self.switch(master))
