@@ -28,26 +28,8 @@ with open("storewords.txt", "rb") as myFile:
     all_words = pickle.load(myFile)
 
 
-def percentageCalculator(x, y, case=1):
-    """Calculate percentages
-       Case1: What is x% of y?
-       Case2: x is what percent of y?
-       Case3: What is the percentage increase/decrease from x to y?
-    """
-    if case == 1:
-        # Case1: What is x% of y?
-        r = x / 100.0 * y
-        return r
-    elif case == 2:
-        # Case2: x is what percent of y?
-        r = x / y * 100
-        return r
-    elif case == 3:
-        # Case3: What is the percentage increase/decrease from x to y?
-        r = (y - x) / x * 100
-        return r
-    else:
-        raise Exception("Only case 1,2 and 3 are available!")
+def percentageCalculator(x, y):
+    return x/y *100
 
 
 def query_vector(query):
@@ -104,7 +86,7 @@ def return_list(master, query):
     i = 1
 
     for story in data.keys():
-        unit = percentageCalculator(i, 1000, case=2)
+        unit = percentageCalculator(i, 1000)
         step = "Working on {}...".format(i)
         # log.write(str('\n[OK]'))
         master.progress['value'] = unit
